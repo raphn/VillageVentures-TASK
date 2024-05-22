@@ -4,8 +4,11 @@ namespace VillageVentures
 {
     //Creating new scriptable allows me to manipulate the animation faster in code rather than Animation Controller and the project keeps scalability.
     [CreateAssetMenu(fileName = "NewOutfit", menuName = "Assets/Outfit")]
-    public class AnimationSpriteSet : ScriptableObject
+    public class OutfitAnimation : ScriptableObject
     {
+        [SerializeField] private string label = "Outfit";
+        [SerializeField] private int cost = 50;
+
         [Header("Idle Animation Sprites")]
         public Sprite[] idle_down;
         public Sprite[] idle_up;
@@ -23,6 +26,9 @@ namespace VillageVentures
         private Direction currentDirection;
         private int currentIndex = 0;
         private float timer = 0f;
+
+        public int Cost => cost;
+        public string Label => label;
 
 
         public void SetSprite(SpriteRenderer renderer, bool moving, Direction dir, float delta)
@@ -64,7 +70,6 @@ namespace VillageVentures
                 renderer.sprite = GetSprite();
             }
         }
-
 
         private void IncrementIndex()
         {

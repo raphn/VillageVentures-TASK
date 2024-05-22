@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 540dd5edfcc4847408c5ba9c77c0b49f, type: 3}
+  m_Name: HairMale
+  m_EditorClassIdentifier: 
+  idle_down:
+  - {fileID: -1586740513, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  idle_up:
+  - {fileID: 567721291, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  idle_right:
+  - {fileID: 127352576, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  idle_left:
+  - {fileID: -378018213, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  walk_right:
+  - {fileID: -468264989, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: -236332720, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: -458761850, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: -12219292, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: 1167518024, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: 1712613022, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  walk_left:
+  - {fileID: -1223367744, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: 419523369, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: 196128373, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: 332559678, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: 680510822, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: -895058169, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  walk_up:
+  - {fileID: -1708655802, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: 2058468016, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: 924813308, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: 578125073, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: -1543889187, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: -2130855050, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  walk_down:
+  - {fileID: -1390335510, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: 1335543055, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: -7782229, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: 599804993, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: 52533337, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+  - {fileID: -89008339, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}

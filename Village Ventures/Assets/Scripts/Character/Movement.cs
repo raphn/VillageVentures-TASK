@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace VillageVentures
@@ -12,27 +10,27 @@ namespace VillageVentures
         private Rigidbody2D rb;
         private Vector2 movement;
 
+        public bool blockMovement;
+
         public bool IsMoving => movement.magnitude > 0.1f;
         public Vector2 MoveInput => movement;
 
 
-        void Start()
-        {
-            // Get the Rigidbody2D component attached to the player GameObject
-            rb = GetComponent<Rigidbody2D>();
-        }
+        void Start() => rb = GetComponent<Rigidbody2D>();
 
         void Update()
         {
-            // Get input from the player
+            if (blockMovement)
+            {
+                movement = Vector2.zero;
+                return;
+            }
+
+            // Get input
             movement.x = Input.GetAxis("Horizontal"); // Gets input from A/D keys or Left/Right arrow keys
             movement.y = Input.GetAxis("Vertical");   // Gets input from W/S keys or Up/Down arrow keys
         }
 
-        void FixedUpdate()
-        {
-            // Move the player using Rigidbody2D component
-            rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * movement);
-        }
+        void FixedUpdate() => rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * movement);
     }
 }

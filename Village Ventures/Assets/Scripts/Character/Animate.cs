@@ -1,4 +1,6 @@
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using UnityEngine.Windows.WebCam;
 
 namespace VillageVentures
 {
@@ -8,17 +10,34 @@ namespace VillageVentures
     [RequireComponent (typeof(SpriteRenderer))]
     public class Animate : MonoBehaviour
     {
-        [SerializeField]
-        private int spritePerSec = 5;
+        /// <summary>
+        /// Hold the individualized references to the outfits renderers and sprite animations
+        /// </summary>
+        [System.Serializable]
+        public class AnimationSetup
+        {
+            public string label = "Animation";
+            [Tooltip("Renderer that will have its sprite changed")]
+            public SpriteRenderer renderer;
+            [Tooltip("Animation sprite asset to animate")]
+            public OutfitAnimation outfit;
 
-        [SerializeField]
-        private AnimationSpriteSet character;
+            public bool HasRenderer => renderer != null;
+
+            public void UpdateRenderer(bool moving, Direction dir, float delta)
+            {
+                if (outfit)
+                    outfit.SetSprite(renderer, moving, dir, delta);
+                else
+                    renderer.enabled = false;
+            }
+        }
+
+        [SerializeField] private int spritePerSec = 5;
+        [SerializeField] private OutfitAnimation character;
 
         [Header("Clothing")]
-        [SerializeField]
-        private AnimationSpriteSet outfit;
-        [SerializeField]
-        private AnimationSpriteSet head;
+        [SerializeField] private AnimationSetup[] outfits;
 
         private Direction direction;
         private Movement movement;
@@ -37,10 +56,21 @@ namespace VillageVentures
             if (moving)
                 direction = GetMovementDirection();
 
+            float animSpeed = Time.deltaTime * spritePerSec;
             if (character)
-                character.SetSprite(sRenderer, moving, direction, Time.deltaTime * spritePerSec);
+                character.SetSprite(sRenderer, moving, direction, animSpeed);
             else
-                Debug.LogError("Character with no body Sprites!");
+            {
+                Debug.LogError("Main body not asigned!");
+                return;
+            }
+                
+            for (int i = 0; i < outfits.Length; i++)
+            {
+                if (outfits[i].HasRenderer)
+                    outfits[i].UpdateRenderer(moving, direction, animSpeed);
+
+            }
         }
 
         Direction GetMovementDirection()
