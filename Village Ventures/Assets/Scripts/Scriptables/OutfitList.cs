@@ -15,5 +15,6 @@ namespace VillageVentures
                 Debug.Log(outfits[i].name);
             }
         }
+        public OutfitAnimation[] GetAllItems() => outfits;
     }
 }
