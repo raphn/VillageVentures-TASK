@@ -73,6 +73,16 @@ namespace VillageVentures
             }
         }
 
+        public bool CheckIsEquiped(OutfitAnimation outfit)
+        {
+            for (int i = 0;i < outfits.Length; i++)
+            {
+                if (outfits[i].outfit == outfit)
+                    return true;
+            }
+            return false;
+        }
+
         Direction GetMovementDirection()
         {
             Vector2 move = movement.MoveInput;

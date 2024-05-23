@@ -7,6 +7,7 @@ namespace VillageVentures
     public class OutfitAnimation : ScriptableObject
     {
         [SerializeField] private int cost = 50;
+        [SerializeField] private bool dontSell;
 
         [Header("Idle Animation Sprites")]
         public Sprite[] idle_down;
@@ -20,12 +21,19 @@ namespace VillageVentures
         public Sprite[] walk_up;
         public Sprite[] walk_down;
 
+        [Header("Jump Animation Sprites")]
+        public Sprite[] jump_right;
+        public Sprite[] jump_left;
+        public Sprite[] jump_up;
+        public Sprite[] jump_down;
+
         private bool enabled = true;
         private bool isMovingTrack = false;
         private Direction currentDirection;
         private int currentIndex = 0;
         private float timer = 0f;
 
+        public bool CanSell => !dontSell;
         public int Cost => cost;
         public Sprite Icon => idle_down[0];
         //public string Label => label;

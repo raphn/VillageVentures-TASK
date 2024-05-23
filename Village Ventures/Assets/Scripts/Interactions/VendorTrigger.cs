@@ -7,7 +7,6 @@ public class VendorTrigger : MonoBehaviour
         print($"Collision {collision} with tag: {collision.tag}");
         if (collision != null && collision.CompareTag("Player"))
         {
-            print("Calling");
             GameInterface.Instance.CallInterface();
         }
     }

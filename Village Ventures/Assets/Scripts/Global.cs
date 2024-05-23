@@ -3,6 +3,8 @@ using System;
 
 namespace VillageVentures
 {
+    public enum Location { Village, Shop, Saloon };
+
     public class CountDownTimer
     {
         private float _time = 0;

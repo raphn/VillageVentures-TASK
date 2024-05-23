@@ -1,5 +1,7 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 using VillageVentures;
 
 public class GameInterface : MonoBehaviour
@@ -9,12 +11,23 @@ public class GameInterface : MonoBehaviour
     [Header("Transition")]
     [SerializeField] float inOutTransitTime = 0.25f;
     [SerializeField] CanvasGroup group;
+    [SerializeField] GameObject loadingScreen;
+    [SerializeField] GameObject mainMenuScreen;
 
     [Header("Info Displays")]
     [SerializeField] TextMeshProUGUI playerName;
     [SerializeField] TextMeshProUGUI playerMoney;
     [Space]
     [SerializeField] MarketInterfaceUpdater marketInterface;
+    
+    [Header("Inventory")]
+    [SerializeField] UIItemButton itemDisplayPrefab;
+    [SerializeField] RectTransform inventoryDisplayRoot;
+
+    [Header("Dialogs")]
+    [SerializeField] GameObject dialogGO;
+    [SerializeField] TextMeshProUGUI dialogText;
+    [SerializeField] UIButton dialogActionButton;
 
     [Header("UI Message")]
     [SerializeField] float msnTime = 2.0f;
@@ -38,16 +51,14 @@ public class GameInterface : MonoBehaviour
     }
 
 
+    // SETUP & CALLBACKS
     private void Awake() => Instance = this;
-
     public void SetupAvailableItemsToSell(OutfitList list) => marketInterface.SetupFromItemsList(list);
-
     private void Start()
     {
         group.interactable = group.blocksRaycasts = false;
         group.alpha = 0f;
     }
-    
     private void Update() => timer?.Update(Time.deltaTime);
 
 
@@ -105,5 +116,48 @@ public class GameInterface : MonoBehaviour
             m.SetupMessage(message, mode);
             Destroy(m, Instance.msnTime);
         }
+    }
+    
+
+    public static void OpenDialog(string message, string actionText, UnityAction onAccept)
+    {
+        if (!Instance)
+            return;
+
+        Instance.dialogGO.SetActive(true);
+        Instance.dialogText.text = message;
+        Instance.dialogActionButton.Text = actionText;
+        Instance.dialogActionButton.AddOnClickListener(onAccept);
+    }
+    public static void CloseDialog()
+    {
+        if (!Instance)
+            return;
+
+        Instance.dialogGO.SetActive(false);
+        Instance.dialogActionButton.RemoveAllListeners();
+    }
+
+
+    public static void OpenMainMenuScreen()
+    {
+        if (Instance)
+            Instance.mainMenuScreen.SetActive(true);
+    }
+    public static void CloseMainMenuScreen()
+    {
+        if (Instance)
+            Instance.mainMenuScreen.SetActive(false);
+    }
+
+    public static void ShowLoadingScreen()
+    {
+        if (Instance)
+            Instance.loadingScreen.SetActive(true);
+    }
+    public static void CloseLoadingScreen()
+    {
+        if (Instance)
+            Instance.loadingScreen.SetActive(false);
     }
 }
