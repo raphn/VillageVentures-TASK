@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,12 +9,19 @@ namespace VillageVentures
         [SerializeField] Image icon;
         [SerializeField] TextMeshProUGUI qualityText;
 
-        private OutfitAnimation outfit;
+        private ItemStack outfit;
 
 
-        public void SellItem()
+        public void SetupFromItemStack(ItemStack stack)
         {
-            GameInterface.OpenDialog($"Are you sure you want sell {outfit.name}?", "Sell", () => GameSingleton.Instance.SellItem(outfit));
+            outfit = stack;
+            icon.sprite = outfit.item.Icon;
+            qualityText.text = $"{outfit.quality}%";
         }
+
+        public void SellItem() => GameInterface.OpenDialog($"Are you sure you want sell {outfit.item.name}?", Sell);
+        private void Sell() => GameSingleton.Instance.SellItem(outfit);
+
+        public void EquipItem() => outfit.Equip();
     }
 }

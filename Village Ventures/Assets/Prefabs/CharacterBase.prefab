@@ -457,12 +457,22 @@ MonoBehaviour:
   spritePerSec: 7
   character: {fileID: 11400000, guid: e8ba4fce91b754e4cad8b6100df55e8a, type: 2}
   outfits:
-  - label: Outfit
+  - label: Body
     renderer: {fileID: 6003030215648526368}
-    outfit: {fileID: 11400000, guid: 2e866004af44dd84982f9c06193fb276, type: 2}
+    item:
+      owner: {fileID: 0}
+      item: {fileID: 0}
+      quality: 0
+      equiped: 0
+    animation: {fileID: 0}
   - label: Head
     renderer: {fileID: 7866100009409606961}
-    outfit: {fileID: 0}
+    item:
+      owner: {fileID: 0}
+      item: {fileID: 0}
+      quality: 0
+      equiped: 0
+    animation: {fileID: 0}
 --- !u!114 &7513311582835704821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,9 +486,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   money: 50
+  animator: {fileID: 5186350249527161020}
   items:
-  - item: {fileID: 11400000, guid: 2e866004af44dd84982f9c06193fb276, type: 2}
-    quality: 0
+  - owner: {fileID: 7513311582835704821}
+    item: {fileID: 11400000, guid: 2e866004af44dd84982f9c06193fb276, type: 2}
+    quality: 100
+    equiped: 0
+  - owner: {fileID: 7513311582835704821}
+    item: {fileID: 11400000, guid: e96837adf4f4a914885534553513c834, type: 2}
+    quality: 100
+    equiped: 0
 --- !u!1 &7642826841976432156
 GameObject:
   m_ObjectHideFlags: 0

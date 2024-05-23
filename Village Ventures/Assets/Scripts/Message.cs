@@ -10,6 +10,8 @@ namespace VillageVentures
     {
         [SerializeField] TextMeshProUGUI textMesh;
 
+        public float time;
+
 
         public void SetupMessage(string message, MessageMode mode)
         {

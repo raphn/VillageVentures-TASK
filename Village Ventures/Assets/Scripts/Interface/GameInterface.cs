@@ -1,8 +1,12 @@
+using JetBrains.Annotations;
+using System;
+using System.Collections.Generic;
 using TMPro;
+using UnityEditor.SceneTemplate;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 using VillageVentures;
+using static UnityEditor.Progress;
 
 public class GameInterface : MonoBehaviour
 {
@@ -23,30 +27,43 @@ public class GameInterface : MonoBehaviour
     [Header("Inventory")]
     [SerializeField] UIItemButton itemDisplayPrefab;
     [SerializeField] RectTransform inventoryDisplayRoot;
+    [SerializeField] CanvasGroup inventoryCanvasGroup;
+    [SerializeField] TextMeshProUGUI cashDisplay;
 
     [Header("Dialogs")]
     [SerializeField] GameObject dialogGO;
     [SerializeField] TextMeshProUGUI dialogText;
-    [SerializeField] UIButton dialogActionButton;
+    [SerializeField] UIButton dialogAcceptButton;
+    [SerializeField] UIButton dialogCancelButton;
 
     [Header("UI Message")]
     [SerializeField] float msnTime = 2.0f;
     [SerializeField] Message msnPref;
     [SerializeField] Transform msnParent;
+    [Space]
+    [SerializeField] AudioSource errorAudio;
 
     private bool transitioning = false;
     private bool transitioningCall = false;
     private bool afterTransitState = false;
     private CountDownTimer timer;
 
+    private bool inventTransiting = false;
+    private bool inventTransitioningCall = false;
+    private bool afterInventTransitState = false;
+    private CountDownTimer inventoryTimer;
 
+    private List<Message> messages = new List<Message>();
+
+    public bool VendorInterfaceOn => group.interactable;
     public string PlayerName { set { playerName.text = value; } }
     public int PlayerMoney
     {
         set
         {
-            string moneyStr = value.ToString();
-            playerMoney.text = "$ " + moneyStr;
+            string moneyStr = $"${value}";
+            playerMoney.text = moneyStr;
+            cashDisplay.text = moneyStr;
         }
     }
 
@@ -58,8 +75,27 @@ public class GameInterface : MonoBehaviour
     {
         group.interactable = group.blocksRaycasts = false;
         group.alpha = 0f;
+
+        inventoryCanvasGroup.interactable = inventoryCanvasGroup.blocksRaycasts = false;
+        inventoryCanvasGroup.alpha = 0f;
     }
-    private void Update() => timer?.Update(Time.deltaTime);
+    private void Update()
+    {
+        timer?.Update(Time.deltaTime);
+        inventoryTimer?.Update(Time.deltaTime);
+
+        float delta = Time.deltaTime;
+        for (int i = 0; i < messages.Count; i++)
+        {
+            var item = messages[i];
+            item.time += delta;
+            if (item.time > msnTime)
+            {
+                messages.Remove(item);
+                DestroyImmediate(item.gameObject);
+            }
+        }
+    }
 
 
     #region Call main interface ON/OFF
@@ -73,6 +109,7 @@ public class GameInterface : MonoBehaviour
         }
         timer = new CountDownTimer(inOutTransitTime, () => InterfaceTransitionDone(true), ChangingInterfaceState);
         transitioning = true;
+        ShowInventoryRefresh();
     }
     public void CloseInterface()
     {
@@ -84,6 +121,7 @@ public class GameInterface : MonoBehaviour
         }
         timer = new CountDownTimer(inOutTransitTime, () => InterfaceTransitionDone(false), ChangingInterfaceState);
         transitioning = true;
+        CloseInventory();
     }
     
     private void ChangingInterfaceState(float progress) => group.alpha = progress;
@@ -108,26 +146,30 @@ public class GameInterface : MonoBehaviour
     }
     #endregion
 
+
+    // INTERACTIONS & MESSAGES
     public static void UIMessage(string message, MessageMode mode = MessageMode.Normal)
     {
         if (Instance)
         {
             Message m = Instantiate(Instance.msnPref, Instance.msnParent).GetComponent<Message>();
             m.SetupMessage(message, mode);
-            Destroy(m, Instance.msnTime);
+            Instance.messages.Add(m);
+            if (mode == MessageMode.Error || mode == MessageMode.Warning)
+                Instance.errorAudio.Play();
         }
     }
     
-
-    public static void OpenDialog(string message, string actionText, UnityAction onAccept)
+    public static void OpenDialog(string message, UnityAction onAccept, string acceptText = "Accept", string cancel = "Cancel")
     {
         if (!Instance)
             return;
 
         Instance.dialogGO.SetActive(true);
         Instance.dialogText.text = message;
-        Instance.dialogActionButton.Text = actionText;
-        Instance.dialogActionButton.AddOnClickListener(onAccept);
+        Instance.dialogAcceptButton.Text = acceptText;
+        Instance.dialogAcceptButton.AddOnClickListener(onAccept);
+        Instance.dialogCancelButton.Text = cancel;
     }
     public static void CloseDialog()
     {
@@ -135,10 +177,17 @@ public class GameInterface : MonoBehaviour
             return;
 
         Instance.dialogGO.SetActive(false);
-        Instance.dialogActionButton.RemoveAllListeners();
+        Instance.dialogAcceptButton.RemoveAllListeners();
+    }
+    public void CloseDialogPlaySoud()
+    {
+        dialogGO.SetActive(false);
+        dialogAcceptButton.RemoveAllListeners();
+        errorAudio.Play();
     }
 
 
+    // OPEN CLOSE WINDOWS
     public static void OpenMainMenuScreen()
     {
         if (Instance)
@@ -159,5 +208,70 @@ public class GameInterface : MonoBehaviour
     {
         if (Instance)
             Instance.loadingScreen.SetActive(false);
+    }
+
+
+    // DISPLAY INVENTORY
+    public static void ShowInventoryRefresh()
+    {
+        if (Instance.inventTransiting)
+        {
+            Instance.inventTransitioningCall = true;
+            Instance.afterInventTransitState = true;
+            return;
+        }
+        Instance.inventoryTimer = new CountDownTimer(Instance.inOutTransitTime, () => Instance.InventoryDisplayTransitionDone(true), Instance.ChangingInventoryDisplayState);
+        Instance.inventTransiting = true;
+
+        RefreshPlayerInventoryDisplay();
+    }
+    public static void RefreshPlayerInventoryDisplay()
+    {
+        // Get Inventory Info
+        ItemStack[] items = GameSingleton.Instance.PlayerInventory.CurrentItems;
+
+        // Clean current buttons
+        int currentBtnsTotal = Instance.inventoryDisplayRoot.childCount;
+        for (int i = 0; i < currentBtnsTotal; i++)
+            DestroyImmediate(Instance.inventoryDisplayRoot.GetChild(0).gameObject);
+
+        // Instantiate new buttons
+        for (int i = 0;i < items.Length; i++)
+        {
+            UIItemButton nBtn = Instantiate(Instance.itemDisplayPrefab, Instance.inventoryDisplayRoot).GetComponent<UIItemButton>();
+            nBtn.SetupFromItemStack(items[i]);
+        }
+    }
+    public static void CloseInventory()
+    {
+        if (Instance.inventTransiting)
+        {
+            Instance.inventTransitioningCall = true;
+            Instance.afterInventTransitState = false;
+            return;
+        }
+        Instance.inventoryTimer = new CountDownTimer(Instance.inOutTransitTime, () => Instance.InventoryDisplayTransitionDone(false), Instance.ChangingInventoryDisplayState);
+        Instance.inventTransiting = true;
+    }
+
+    private void ChangingInventoryDisplayState(float progress) => inventoryCanvasGroup.alpha = progress;
+    private void InventoryDisplayTransitionDone(bool isOn)
+    {
+        // In case there were any call for a transition during a transition
+        if (inventTransitioningCall && afterInventTransitState != isOn)
+        {
+            if (isOn)
+                CloseInventory();
+            else
+                ShowInventoryRefresh();
+        }
+        else
+        {
+            inventoryCanvasGroup.interactable = inventoryCanvasGroup.blocksRaycasts = isOn;
+            inventoryCanvasGroup.alpha = isOn ? 1f : 0f;
+        }
+        inventTransiting = false;
+        inventTransitioningCall = false;
+        inventoryTimer = null; // Discart timer
     }
 }

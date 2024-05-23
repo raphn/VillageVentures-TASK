@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 540dd5edfcc4847408c5ba9c77c0b49f, type: 3}
   m_Name: HairFemale
   m_EditorClassIdentifier: 
+  icon: {fileID: 0}
+  cost: 50
+  earnPerSec: 10
+  dontSell: 1
+  equipTo: Head
   idle_down:
   - {fileID: -2085089023, guid: e3a4194e8208439488d724a5ddfd4e19, type: 3}
   idle_up:
@@ -48,3 +53,7 @@ MonoBehaviour:
   - {fileID: -1833285029, guid: e3a4194e8208439488d724a5ddfd4e19, type: 3}
   - {fileID: -267678367, guid: e3a4194e8208439488d724a5ddfd4e19, type: 3}
   - {fileID: -544384141, guid: e3a4194e8208439488d724a5ddfd4e19, type: 3}
+  jump_right: []
+  jump_left: []
+  jump_up: []
+  jump_down: []

@@ -12,9 +12,9 @@ namespace VillageVentures
         [SerializeField] UnityEvent onClicked;
         [SerializeField] AudioClip hoverAudio;
         [SerializeField] AudioClip pressedAudio;
+        [SerializeField] TextMeshProUGUI textMesh;
 
         private AudioSource audioSource;
-        private TextMeshProUGUI textMesh;
 
         public string Text
         {
@@ -26,11 +26,7 @@ namespace VillageVentures
         }
 
 
-        private void Awake()
-        {
-            audioSource = gameObject.AddComponent<AudioSource>();
-            gameObject.GetComponentInChildren<TextMeshProUGUI>();
-        }
+        private void Awake() => audioSource = gameObject.AddComponent<AudioSource>();
 
         public void AddOnClickListener(UnityAction action) => onClicked.AddListener(action);
         public void RemoveAllListeners() => onClicked.RemoveAllListeners();

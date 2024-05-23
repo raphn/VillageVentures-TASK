@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: OutfitList
   m_EditorClassIdentifier: 
   outfits:
-  - {fileID: 11400000, guid: e8ba4fce91b754e4cad8b6100df55e8a, type: 2}
   - {fileID: 11400000, guid: caf7a77a6b87366409a1d507962c15cf, type: 2}
   - {fileID: 11400000, guid: e96837adf4f4a914885534553513c834, type: 2}
   - {fileID: 11400000, guid: 370989df81506e34ab70d3ff5bcfc1b0, type: 2}

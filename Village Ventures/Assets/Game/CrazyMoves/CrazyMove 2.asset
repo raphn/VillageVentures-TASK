@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abb4aaa64c2815a4eb4a318d2a9cacf4, type: 3}
+  m_Name: CrazyMove 2
+  m_EditorClassIdentifier: 
+  move:
+  - body: {fileID: -1576841126, guid: 3aa38b79683d0f34aa0dd7d48aa8a770, type: 3}
+    outfit: {fileID: 788256235, guid: 787cb0e6b185a274cb083e980209d5ed, type: 3}
+    maleHair: {fileID: -1223367744, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+    femaleHair: {fileID: -1954431609, guid: e3a4194e8208439488d724a5ddfd4e19, type: 3}
+  - body: {fileID: 562391568, guid: 3aa38b79683d0f34aa0dd7d48aa8a770, type: 3}
+    outfit: {fileID: -1661782733, guid: 787cb0e6b185a274cb083e980209d5ed, type: 3}
+    maleHair: {fileID: -468264989, guid: 4a8c267e836b3d24f900cec24c7e5078, type: 3}
+    femaleHair: {fileID: 965362563, guid: e3a4194e8208439488d724a5ddfd4e19, type: 3}

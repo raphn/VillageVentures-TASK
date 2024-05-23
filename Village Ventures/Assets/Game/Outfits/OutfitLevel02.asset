@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 540dd5edfcc4847408c5ba9c77c0b49f, type: 3}
   m_Name: OutfitLevel02
   m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 8b9b595d53338d5408bce10c8f9c1231, type: 3}
   cost: 100
+  earnPerSec: 25
+  dontSell: 0
+  equipTo: Body
   idle_down:
   - {fileID: -734685465, guid: 015189567af952b4d926f680e9b5f374, type: 3}
   idle_up:

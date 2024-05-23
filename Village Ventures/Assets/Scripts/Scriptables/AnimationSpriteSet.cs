@@ -6,8 +6,12 @@ namespace VillageVentures
     [CreateAssetMenu(fileName = "NewOutfit", menuName = "Assets/Outfit")]
     public class OutfitAnimation : ScriptableObject
     {
+        [SerializeField] private Sprite icon;
         [SerializeField] private int cost = 50;
+        [SerializeField] private int earnPerSec = 25;
         [SerializeField] private bool dontSell;
+        [Tooltip("Same as the label in the animator")]
+        [SerializeField] private string equipTo = "Body";
 
         [Header("Idle Animation Sprites")]
         public Sprite[] idle_down;
@@ -35,7 +39,9 @@ namespace VillageVentures
 
         public bool CanSell => !dontSell;
         public int Cost => cost;
-        public Sprite Icon => idle_down[0];
+        public int EarnPerSec => earnPerSec;
+        public string EquipTo => equipTo;
+        public Sprite Icon => icon ? icon : idle_down[0];
         //public string Label => label;
 
 

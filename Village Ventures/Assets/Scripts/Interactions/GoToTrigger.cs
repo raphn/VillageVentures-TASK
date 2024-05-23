@@ -9,7 +9,7 @@ public class GoToTrigger : MonoBehaviour
     {
         if (collision != null && collision.CompareTag("Player"))
         {
-            GameInterface.OpenDialog($"Do you want to go to {goesTo}?", "Go", () => GameSingleton.GoTo(goesTo));
+            GameInterface.OpenDialog($"Do you want to go to {goesTo}?", () => GameSingleton.GoTo(goesTo));
         }
     }
     private void OnTriggerExit2D(Collider2D collision)

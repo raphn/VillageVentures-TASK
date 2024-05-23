@@ -16,7 +16,7 @@ namespace VillageVentures
 
             for (int i = 0; i < totalDisplays; i++)
             {
-                if (i >= items.Length - 1)
+                if (i >= items.Length)
                     displays[i].SetupNoItems();
                 else
                     displays[i].SetupFromItem(items[i]);

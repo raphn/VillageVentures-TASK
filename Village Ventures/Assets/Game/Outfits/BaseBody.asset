@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 540dd5edfcc4847408c5ba9c77c0b49f, type: 3}
   m_Name: BaseBody
   m_EditorClassIdentifier: 
+  icon: {fileID: 0}
   cost: 50
+  earnPerSec: 1
+  dontSell: 1
+  equipTo: Body
   idle_down:
   - {fileID: 45759555, guid: 3aa38b79683d0f34aa0dd7d48aa8a770, type: 3}
   idle_up:
