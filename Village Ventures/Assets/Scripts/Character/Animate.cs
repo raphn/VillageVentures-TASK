@@ -90,6 +90,8 @@ namespace VillageVentures
                     outfits[i].item = stack;
                     stack.equiped = true;
 
+                    GameSingleton.Instance.PlayZipperSound();
+                    GameInterface.RefreshPlayerInventoryDisplay();
                     GameInterface.UIMessage($"{stack.item.name} equiped!");
                     return true;
                 }

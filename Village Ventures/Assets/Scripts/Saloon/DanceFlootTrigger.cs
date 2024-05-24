@@ -5,6 +5,7 @@ namespace VillageVentures
     public class DanceFlootTrigger : MonoBehaviour
     {
         [SerializeField] float maxTime = 3.0f;
+        [SerializeField] LightsMove lights;
 
         private Movement playerMove;
         private Inventory playerInventory;
@@ -40,6 +41,7 @@ namespace VillageVentures
                 timer = 0;
                 earned = 0;
                 advisedToLeave = false;
+                lights.IsOn = true;
 
                 playerMove = collision.GetComponent<Movement>();
                 playerInventory = collision.GetComponent<Inventory>();
@@ -51,6 +53,7 @@ namespace VillageVentures
         {
             if (collision.CompareTag("Player"))
             {
+                lights.IsOn = false;
                 playerMove = null;
                 playerInventory.DecreValues();
 

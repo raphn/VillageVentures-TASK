@@ -24,7 +24,7 @@ namespace VillageVentures
         {
             get
             {
-                float usePercent = 1f / (float)quality;
+                float usePercent = (float)quality/100.0f;
                 return Mathf.CeilToInt(usePercent * item.Cost);
             }
         }

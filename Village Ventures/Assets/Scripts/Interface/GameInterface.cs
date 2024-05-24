@@ -1,12 +1,9 @@
-using JetBrains.Annotations;
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.SceneTemplate;
 using UnityEngine;
 using UnityEngine.Events;
 using VillageVentures;
-using static UnityEditor.Progress;
 
 public class GameInterface : MonoBehaviour
 {
@@ -53,6 +50,8 @@ public class GameInterface : MonoBehaviour
     private bool afterInventTransitState = false;
     private CountDownTimer inventoryTimer;
 
+    private GameObject dispose;
+
     private List<Message> messages = new List<Message>();
 
     public bool VendorInterfaceOn => group.interactable;
@@ -78,6 +77,11 @@ public class GameInterface : MonoBehaviour
 
         inventoryCanvasGroup.interactable = inventoryCanvasGroup.blocksRaycasts = false;
         inventoryCanvasGroup.alpha = 0f;
+
+        dispose = new GameObject("disposed_ui");
+        dispose.transform.parent = transform;
+        dispose.SetActive(false);
+        StartCoroutine(CleanupDispose());
     }
     private void Update()
     {
@@ -97,6 +101,16 @@ public class GameInterface : MonoBehaviour
         }
     }
 
+    private IEnumerator CleanupDispose()
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
+        // Clean current buttons
+        int currentBtnsTotal = dispose.transform.childCount;
+        for (int i = 0; i < currentBtnsTotal; i++)
+            Destroy(dispose.transform.GetChild(0).gameObject);
+
+        StartCoroutine(CleanupDispose());
+    }
 
     #region Call main interface ON/OFF
     public void CallInterface()
@@ -214,6 +228,8 @@ public class GameInterface : MonoBehaviour
     // DISPLAY INVENTORY
     public static void ShowInventoryRefresh()
     {
+        RefreshPlayerInventoryDisplay();
+
         if (Instance.inventTransiting)
         {
             Instance.inventTransitioningCall = true;
@@ -222,8 +238,6 @@ public class GameInterface : MonoBehaviour
         }
         Instance.inventoryTimer = new CountDownTimer(Instance.inOutTransitTime, () => Instance.InventoryDisplayTransitionDone(true), Instance.ChangingInventoryDisplayState);
         Instance.inventTransiting = true;
-
-        RefreshPlayerInventoryDisplay();
     }
     public static void RefreshPlayerInventoryDisplay()
     {
@@ -233,7 +247,7 @@ public class GameInterface : MonoBehaviour
         // Clean current buttons
         int currentBtnsTotal = Instance.inventoryDisplayRoot.childCount;
         for (int i = 0; i < currentBtnsTotal; i++)
-            DestroyImmediate(Instance.inventoryDisplayRoot.GetChild(0).gameObject);
+            Instance.inventoryDisplayRoot.GetChild(0).parent = Instance.dispose.transform;
 
         // Instantiate new buttons
         for (int i = 0;i < items.Length; i++)

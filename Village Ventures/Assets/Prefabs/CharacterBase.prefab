@@ -423,7 +423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 981371fdf8c8695469101b5bf1eb6a30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 8
+  moveSpeed: 10
   blockMovement: 0
 --- !u!114 &7187792013872797855
 MonoBehaviour:
@@ -441,7 +441,7 @@ MonoBehaviour:
   - m_Name: Walk-DOWN
     m_Hash: 0
     m_CategoryList: []
-  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: dfbf10c235348aa49a3437b60c8653a3, type: 3}
+  m_SpriteLibraryAsset: {fileID: 0}
 --- !u!114 &5186350249527161020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,6 +494,10 @@ MonoBehaviour:
     equiped: 0
   - owner: {fileID: 7513311582835704821}
     item: {fileID: 11400000, guid: e96837adf4f4a914885534553513c834, type: 2}
+    quality: 100
+    equiped: 0
+  - owner: {fileID: 7513311582835704821}
+    item: {fileID: 11400000, guid: 871f9809f5d02cd4fa5310a9097d860b, type: 2}
     quality: 100
     equiped: 0
 --- !u!1 &7642826841976432156

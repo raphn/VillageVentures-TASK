@@ -1,8 +1,5 @@
-using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using VillageVentures;
-using static UnityEditor.Progress;
-
 
 public class GameSingleton : MonoBehaviour
 {
@@ -16,14 +13,19 @@ public class GameSingleton : MonoBehaviour
 
     [Header("Game")]
     [SerializeField] OutfitList outfits;
+    [SerializeField] string[] buyingLines = { "It's yours!", "That's a top look you're getting!", "Thats the one!" };
 
     [Header("Audios")]
     [SerializeField] AudioClip mainMenuMusic;
     [SerializeField] AudioClip villageMusic;
     [SerializeField] AudioClip danceClip;
     [Space]
+    [SerializeField] AudioClip doorClip;
+    [SerializeField] AudioClip cashClip;
+    [SerializeField] AudioClip zipperClip;
+    [Space]
     [SerializeField] AudioSource mainAudio;
-    [SerializeField] AudioSource doorOpen;
+    [SerializeField] AudioSource fxAudios;
 
     // SCENES STUFF
     private GameObject villageInstance;
@@ -35,8 +37,6 @@ public class GameSingleton : MonoBehaviour
     private Location playerLocation;
     private Inventory playerInventory;
     private bool showingInventory;
-
-    private readonly string[] buyingLines = { "It's yours!", "Nice look!", "Ok... Thats IT!" };
 
     public Inventory PlayerInventory { get { return playerInventory; } }
 
@@ -72,6 +72,22 @@ public class GameSingleton : MonoBehaviour
         GameInterface.RefreshPlayerInventoryDisplay();
     }
 
+    
+    void PlayDoorSound()
+    {
+        fxAudios.clip = doorClip;
+        fxAudios.Play();
+    }
+    void PlayCashSound()
+    {
+        fxAudios.clip = cashClip;
+        fxAudios.Play();
+    }
+    public void PlayZipperSound()
+    {
+        fxAudios.clip = zipperClip;
+        fxAudios.Play();
+    }
 
     #region Scene changing
     public static void GoTo(Location newLocation)
@@ -89,7 +105,7 @@ public class GameSingleton : MonoBehaviour
                 break;
         }
         GameInterface.CloseDialog();
-        Instance.doorOpen.Play();
+        Instance.PlayDoorSound();
     }
 
     void GoToShop()
@@ -184,10 +200,11 @@ public class GameSingleton : MonoBehaviour
         {
             playerInventory.BuyItem(item);
             GameInterface.UIMessage(buyingLines[Random.Range(0, buyingLines.Length)]);
+            PlayCashSound();
         }
         else
         {
-            GameInterface.UIMessage($"Sorry but you will have to sweat a little more to buy this...", MessageMode.Warning);
+            GameInterface.UIMessage($"Sorry but you will have to sweat with a little more dancing to buy this...", MessageMode.Warning);
         }
         GameInterface.Instance.PlayerMoney = playerInventory.Money;
         GameInterface.RefreshPlayerInventoryDisplay();
